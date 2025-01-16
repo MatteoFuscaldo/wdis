@@ -1,0 +1,10 @@
+---
+layout: default
+---
+<div class="icons-container">
+  {% for item in site.data.icons %}
+    {% include icon.html icon=item %}
+  {% endfor %}
+</div>
+<script src="https://unpkg.com/jsyaml@latest/dist/jsyaml.min.js"></script>
+<script src="/js/main.js"></script>
