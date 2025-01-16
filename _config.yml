@@ -1,0 +1,17 @@
+title: Remind Me Why I Started
+description: A simple reminder of your goals
+theme: minima
+
+# Enable data directory for reading YAML files
+defaults:
+  - scope:
+      path: ""
+    values:
+      data: "data"
+
+collections:
+  icons:
+    output: false
+
+plugins:
+  - jekyll-feed
