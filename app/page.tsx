@@ -34,12 +34,14 @@ export default function Home() {
   const handleShare = (platform: 'whatsapp' | 'twitter') => {
     if (selectedCategory) {
       const text = `Remind me why I started: ${currentSentence}`
-      const encodedText = encodeURIComponent(text)
+      const websiteLink = 'https://matteofuscaldo.github.io/wdis/'
+      const fullMessage = `${text}\n\nVisit: ${websiteLink}`
+      const encodedMessage = encodeURIComponent(fullMessage)
       
       if (platform === 'whatsapp') {
-        window.open(`https://wa.me/?text=${encodedText}`, '_blank')
+        window.open(`https://wa.me/?text=${encodedMessage}`, '_blank')
       } else if (platform === 'twitter') {
-        window.open(`https://twitter.com/intent/tweet?text=${encodedText}`, '_blank')
+        window.open(`https://twitter.com/intent/tweet?text=${encodedMessage}`, '_blank')
       }
     }
   }
