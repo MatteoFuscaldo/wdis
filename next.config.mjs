@@ -7,6 +7,8 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',  // Add this for static export
+  basePath: process.env.NODE_ENV === 'production' ? '/wdis' : '', // Add this for GitHub Pages
   eslint: {
     ignoreDuringBuilds: true,
   },
