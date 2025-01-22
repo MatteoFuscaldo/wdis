@@ -8,7 +8,7 @@ try {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',  // Add this for static export
-  basePath: process.env.NODE_ENV === 'production' ? '/wdis' : '', // Add this for GitHub Pages
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '', // Remove GitHub Pages specific path
   eslint: {
     ignoreDuringBuilds: true,
   },
