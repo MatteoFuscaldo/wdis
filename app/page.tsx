@@ -47,8 +47,9 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-100">
-      <h1 className="text-4xl font-bold mb-8 text-center">Remind me why I started</h1>
+    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-100 font-meslo">
+      <h1 className="text-4xl font-bold mb-4 text-center">Remind me: Why Did I Start?</h1>
+      <h2 className="text-xl mb-8 text-center">Pick your poison.</h2>
       <div className="flex space-x-4 mb-8">
         {categories.map((category) => (
           <Button
