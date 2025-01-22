@@ -34,7 +34,7 @@ export default function Home() {
   const handleShare = (platform: 'whatsapp' | 'twitter') => {
     if (selectedCategory) {
       const text = `Remind me why I started: ${currentSentence}`
-      const websiteLink = 'https://matteofuscaldo.github.io/wdis/'
+      const websiteLink = process.env.NEXT_PUBLIC_SITE_URL || 'https://wdis.cool'
       const fullMessage = `${text}\n\nVisit: ${websiteLink}`
       const encodedMessage = encodeURIComponent(fullMessage)
       
