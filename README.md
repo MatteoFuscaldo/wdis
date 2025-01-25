@@ -14,3 +14,11 @@ This is a simple website for motivational reminders about personal goals.
 ## Deployment
 
 This site is designed to be deployed on GitHub Pages.
+
+
+## Next steps
+
+- Make it available on Android
+- Try to have GIFs and YouTube videos integrated
+- Add upvotes and downvotes
+- Show charts with stats

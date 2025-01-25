@@ -1,5 +1,7 @@
 export const motivationalSentences: Record<string, string[]> = {
   Diet: [
+    "They don't know me son",
+    "Who's gonna carry the boats and the logs",
     "'You can't outrun a bad diet.' - Unknown",
     "“Let food be thy medicine and medicine be thy food.” – Hippocrates",
     "A moment on the lips, a lifetime on the hips. Choose wisely.",
