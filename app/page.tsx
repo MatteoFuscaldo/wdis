@@ -74,10 +74,10 @@ export default function Home() {
             onClick={() => setShowPopup(false)}
           >
             <motion.div
-              className="bg-white p-8 rounded-lg shadow-lg max-w-md text-center flex flex-col items-center"
+              className="bg-card p-8 rounded-lg shadow-lg max-w-md text-center flex flex-col items-center text-card-foreground"
               onClick={(e) => e.stopPropagation()}
             >
-              <h2 className="text-2xl font-bold mb-4">{selectedCategory}</h2>
+              <h2 className="text-2xl font-bold mb-4 text-card-foreground">{selectedCategory}</h2>
               <p className="mb-6">{currentSentence}</p>
               <div className="flex space-x-4 w-full justify-center">
                 <Button 
