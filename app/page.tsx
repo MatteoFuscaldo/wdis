@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 // if the new import works this is to be removed
 // import { X, Send } from 'lucide-react'
 import { motivationalSentences } from './data/motivationalSentences'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 const categories = [
   { name: 'Diet', icon: '🥗' },
@@ -47,7 +48,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-100 font-meslo">
+    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-background text-foreground font-meslo">
       <h1 className="text-4xl font-bold mb-4 text-center">Remind me: Why Did I Start?</h1>
       <h2 className="text-xl mb-8 text-center">Pick your poison.</h2>
       <div className="flex space-x-4 mb-8">
@@ -104,6 +105,7 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
+      <ThemeToggle />
     </main>
   )
 }
