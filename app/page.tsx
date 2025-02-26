@@ -19,10 +19,15 @@ const categories = [
 ]
 
 export default function Home() {
+  const [isClient, setIsClient] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [showPopup, setShowPopup] = useState(false)
   const [currentSentence, setCurrentSentence] = useState<string>('')
   const [votes, setVotes] = useState({ upvotes: 0, downvotes: 0 })
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   const getRandomSentence = (category: string) => {
     const sentences = motivationalSentences[category]
@@ -30,42 +35,49 @@ export default function Home() {
   }
 
   const handleIconClick = async (category: string) => {
+    if (!isClient) return
+    
     const sentence = getRandomSentence(category)
     setSelectedCategory(category)
     setCurrentSentence(sentence)
     setShowPopup(true)
     
-    // Get votes for this sentence
-    const sentenceId = `${category}-${sentence}`.replace(/[.#$/\[\]]/g, '_')
-    const sentenceRef = ref(db, `sentences/${sentenceId}`)
-    const snapshot = await get(sentenceRef)
-    
-    if (snapshot.exists()) {
-      setVotes(snapshot.val())
-    } else {
-      // Initialize if it doesn't exist
-      await set(sentenceRef, { upvotes: 0, downvotes: 0 })
-      setVotes({ upvotes: 0, downvotes: 0 })
+    try {
+      const sentenceId = `${category}-${sentence}`.replace(/[.#$/\[\]]/g, '_')
+      const sentenceRef = ref(db, `sentences/${sentenceId}`)
+      const snapshot = await get(sentenceRef)
+      
+      if (snapshot.exists()) {
+        setVotes(snapshot.val())
+      } else {
+        await set(sentenceRef, { upvotes: 0, downvotes: 0 })
+        setVotes({ upvotes: 0, downvotes: 0 })
+      }
+    } catch (error) {
+      console.error('Error accessing database:', error)
     }
   }
 
   const handleVote = async (type: 'upvote' | 'downvote') => {
-    if (!selectedCategory || !currentSentence) return
+    if (!isClient || !selectedCategory || !currentSentence) return
 
-    const sentenceId = `${selectedCategory}-${currentSentence}`.replace(/[.#$/\[\]]/g, '_')
-    const sentenceRef = ref(db, `sentences/${sentenceId}`)
-    
-    const updates = {
-      [type === 'upvote' ? 'upvotes' : 'downvotes']: votes[type === 'upvote' ? 'upvotes' : 'downvotes'] + 1
+    try {
+      const sentenceId = `${selectedCategory}-${currentSentence}`.replace(/[.#$/\[\]]/g, '_')
+      const sentenceRef = ref(db, `sentences/${sentenceId}`)
+      
+      const updates = {
+        [type === 'upvote' ? 'upvotes' : 'downvotes']: votes[type === 'upvote' ? 'upvotes' : 'downvotes'] + 1
+      }
+      
+      await update(sentenceRef, updates)
+
+      setVotes(prev => ({
+        ...prev,
+        [type === 'upvote' ? 'upvotes' : 'downvotes']: prev[type === 'upvote' ? 'upvotes' : 'downvotes'] + 1
+      }))
+    } catch (error) {
+      console.error('Error updating votes:', error)
     }
-    
-    await update(sentenceRef, updates)
-
-    // Update local state
-    setVotes(prev => ({
-      ...prev,
-      [type === 'upvote' ? 'upvotes' : 'downvotes']: prev[type === 'upvote' ? 'upvotes' : 'downvotes'] + 1
-    }))
   }
 
   const handleShare = (platform: 'whatsapp' | 'twitter') => {
@@ -79,6 +91,10 @@ export default function Home() {
     } else if (platform === 'twitter') {
       window.open(`https://twitter.com/intent/tweet?text=${encodedText}`, '_blank');
     }
+  }
+
+  if (!isClient) {
+    return <div>Loading...</div> // Or any loading state you prefer
   }
 
   return (
