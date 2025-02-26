@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 // if the new import works this is to be removed
 // import { X, Send } from 'lucide-react'
+// dummy commit
 import { motivationalSentences } from './data/motivationalSentences'
 import { ThemeToggle } from '@/components/theme-toggle'
 
