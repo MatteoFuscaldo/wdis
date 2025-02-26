@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { ThumbsUp, ThumbsDown } from 'lucide-react'
 import { db } from '@/lib/firebase'
-import { doc, updateDoc, getDoc, setDoc, increment } from 'firebase/firestore'
+import { ref, set, get, update } from 'firebase/database'
 import { motivationalSentences } from './data/motivationalSentences'
 
 
@@ -37,14 +37,14 @@ export default function Home() {
     
     // Get votes for this sentence
     const sentenceId = `${category}-${sentence}`.replace(/[.#$/\[\]]/g, '_')
-    const docRef = doc(db, 'sentences', sentenceId)
-    const docSnap = await getDoc(docRef)
+    const sentenceRef = ref(db, `sentences/${sentenceId}`)
+    const snapshot = await get(sentenceRef)
     
-    if (docSnap.exists()) {
-      setVotes(docSnap.data() as { upvotes: number, downvotes: number })
+    if (snapshot.exists()) {
+      setVotes(snapshot.val())
     } else {
-      // Initialize document if it doesn't exist
-      await setDoc(docRef, { upvotes: 0, downvotes: 0 })
+      // Initialize if it doesn't exist
+      await set(sentenceRef, { upvotes: 0, downvotes: 0 })
       setVotes({ upvotes: 0, downvotes: 0 })
     }
   }
@@ -53,11 +53,13 @@ export default function Home() {
     if (!selectedCategory || !currentSentence) return
 
     const sentenceId = `${selectedCategory}-${currentSentence}`.replace(/[.#$/\[\]]/g, '_')
-    const docRef = doc(db, 'sentences', sentenceId)
-
-    await updateDoc(docRef, {
-      [type === 'upvote' ? 'upvotes' : 'downvotes']: increment(1)
-    })
+    const sentenceRef = ref(db, `sentences/${sentenceId}`)
+    
+    const updates = {
+      [type === 'upvote' ? 'upvotes' : 'downvotes']: votes[type === 'upvote' ? 'upvotes' : 'downvotes'] + 1
+    }
+    
+    await update(sentenceRef, updates)
 
     // Update local state
     setVotes(prev => ({

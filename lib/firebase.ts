@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase, ref, onValue, set, push } from "firebase/database";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -22,5 +22,5 @@ if (typeof window !== 'undefined') {
   analytics = getAnalytics(app);
 }
 
-// Initialize and export database
+// Initialize and export Realtime Database
 export const db = getDatabase(app);
