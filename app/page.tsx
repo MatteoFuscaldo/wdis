@@ -22,6 +22,7 @@ export default function Home() {
   const [showPopup, setShowPopup] = useState(false)
   const [currentSentence, setCurrentSentence] = useState<string>('')
   const [votes, setVotes] = useState({ upvotes: 0, downvotes: 0 })
+  const [userVote, setUserVote] = useState<'upvote' | 'downvote' | null>(null)
 
   useEffect(() => {
     setIsClient(true)
@@ -41,15 +42,36 @@ export default function Home() {
     setShowPopup(true)
     
     setVotes({ upvotes: 0, downvotes: 0 })
+    setUserVote(null)
   }
 
   const handleVote = async (type: 'upvote' | 'downvote') => {
     if (!isClient || !selectedCategory || !currentSentence) return
 
-    setVotes(prev => ({
-      ...prev,
-      [type === 'upvote' ? 'upvotes' : 'downvotes']: prev[type === 'upvote' ? 'upvotes' : 'downvotes'] + 1
-    }))
+    setVotes(prev => {
+      if (userVote === type) {
+        // Clicking the same button again - remove the vote
+        return {
+          ...prev,
+          [type === 'upvote' ? 'upvotes' : 'downvotes']: prev[type === 'upvote' ? 'upvotes' : 'downvotes'] - 1
+        }
+      } else if (userVote === null) {
+        // First time voting
+        return {
+          ...prev,
+          [type === 'upvote' ? 'upvotes' : 'downvotes']: prev[type === 'upvote' ? 'upvotes' : 'downvotes'] + 1
+        }
+      } else {
+        // Switching vote from upvote to downvote or vice versa
+        return {
+          ...prev,
+          [type === 'upvote' ? 'upvotes' : 'downvotes']: prev[type === 'upvote' ? 'downvotes' : 'upvotes'] + 1,
+          [type === 'upvote' ? 'downvotes' : 'upvotes']: prev[type === 'upvote' ? 'downvotes' : 'upvotes'] - 1
+        }
+      }
+    })
+
+    setUserVote(userVote === type ? null : type)
   }
 
   const handleShare = (platform: 'whatsapp' | 'twitter') => {
@@ -106,7 +128,7 @@ export default function Home() {
                 <Button
                   variant="outline"
                   onClick={() => handleVote('upvote')}
-                  className="flex items-center gap-2"
+                  className={`flex items-center gap-2 ${userVote === 'upvote' ? 'bg-primary text-primary-foreground' : ''}`}
                 >
                   <ThumbsUp className="w-4 h-4" />
                   <span>{votes.upvotes}</span>
@@ -114,7 +136,7 @@ export default function Home() {
                 <Button
                   variant="outline"
                   onClick={() => handleVote('downvote')}
-                  className="flex items-center gap-2"
+                  className={`flex items-center gap-2 ${userVote === 'downvote' ? 'bg-primary text-primary-foreground' : ''}`}
                 >
                   <ThumbsDown className="w-4 h-4" />
                   <span>{votes.downvotes}</span>
@@ -122,7 +144,7 @@ export default function Home() {
               </div>
               <Button 
                 onClick={() => handleShare('whatsapp')} 
-                className="flex items-center justify-center"
+                className="flex items-center justify-center mb-2"
                 variant="outline"
               >
                 <svg viewBox="0 0 24 24" className="w-5 h-5 mr-2 fill-current">
