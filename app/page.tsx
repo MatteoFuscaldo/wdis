@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { ThumbsUp, ThumbsDown, Share2, X } from 'lucide-react'
 import { motivationalSentences } from './data/motivationalSentences'
+import { db } from '@/lib/firebase'
+import { ref, push, serverTimestamp } from 'firebase/database'
 
 // Define types for better type safety
 type Category = {
@@ -37,6 +39,7 @@ export default function Home() {
   const [currentSentence, setCurrentSentence] = useState<string>('')
   const [votes, setVotes] = useState<VoteCounts>({ upvotes: 0, downvotes: 0 })
   const [userVote, setUserVote] = useState<VoteType>(null)
+  const [voteSubmitting, setVoteSubmitting] = useState(false)
 
   // Check if we're on client-side once on component mount
   useEffect(() => {
@@ -64,9 +67,32 @@ export default function Home() {
     setUserVote(null)
   }
 
-  const handleVote = (type: 'upvote' | 'downvote'): void => {
+  const saveVoteToFirebase = async (voteData: {
+    category: string;
+    sentence: string;
+    voteType: 'upvote' | 'downvote';
+    timestamp: object;
+  }) => {
+    try {
+      // Reference to the votes collection in Firebase
+      const votesRef = ref(db, 'votes')
+      
+      // Push the new vote entry with a unique ID
+      await push(votesRef, voteData)
+      return true
+    } catch (error) {
+      console.error('Error saving vote to Firebase:', error)
+      return false
+    }
+  }
+
+  const handleVote = async (type: 'upvote' | 'downvote'): Promise<void> => {
     if (!isClient || !selectedCategory || !currentSentence) return
-  
+    
+    // Check if we're already processing a vote
+    if (voteSubmitting) return
+    
+    // Immediately update UI for responsiveness
     setVotes(prev => {
       if (userVote === type) {
         // Clicking the same button again - remove the vote
@@ -94,8 +120,37 @@ export default function Home() {
         }
       }
     })
-  
+    
+    // Update local vote state
+    const previousVote = userVote
     setUserVote(userVote === type ? null : type)
+    
+    // If the user clicked the same vote type again (canceling a vote), no need to send to Firebase
+    if (userVote === type) {
+      return
+    }
+    
+    // Set submitting state to prevent multiple clicks
+    setVoteSubmitting(true)
+    
+    // Prepare data for Firebase
+    const voteData = {
+      category: selectedCategory,
+      sentence: currentSentence,
+      voteType: type,
+      timestamp: serverTimestamp()
+    }
+    
+    // Try to save to Firebase
+    const success = await saveVoteToFirebase(voteData)
+    
+    // Reset submitting state after attempt
+    setVoteSubmitting(false)
+    
+    // If there was an error saving to Firebase, log it but don't affect the user experience
+    if (!success) {
+      console.log('Vote was counted locally but not saved to database')
+    }
   }
 
   const handleShare = (platform: SharePlatform): void => {
@@ -165,6 +220,7 @@ export default function Home() {
                   onClick={() => handleVote('upvote')}
                   className={`flex items-center gap-2 transition-colors ${userVote === 'upvote' ? 'bg-primary text-primary-foreground' : ''}`}
                   aria-label="Upvote"
+                  disabled={voteSubmitting}
                 >
                   <ThumbsUp className="w-4 h-4" />
                   <span>{votes.upvotes}</span>
@@ -174,6 +230,7 @@ export default function Home() {
                   onClick={() => handleVote('downvote')}
                   className={`flex items-center gap-2 transition-colors ${userVote === 'downvote' ? 'bg-primary text-primary-foreground' : ''}`}
                   aria-label="Downvote"
+                  disabled={voteSubmitting}
                 >
                   <ThumbsDown className="w-4 h-4" />
                   <span>{votes.downvotes}</span>
