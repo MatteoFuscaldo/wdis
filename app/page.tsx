@@ -5,8 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { ThumbsUp, ThumbsDown } from 'lucide-react'
-import { db } from '@/lib/firebase'
-import { ref, set, get, update } from 'firebase/database'
 import { motivationalSentences } from './data/motivationalSentences'
 
 
@@ -42,42 +40,16 @@ export default function Home() {
     setCurrentSentence(sentence)
     setShowPopup(true)
     
-    try {
-      const sentenceId = `${category}-${sentence}`.replace(/[.#$/\[\]]/g, '_')
-      const sentenceRef = ref(db, `sentences/${sentenceId}`)
-      const snapshot = await get(sentenceRef)
-      
-      if (snapshot.exists()) {
-        setVotes(snapshot.val())
-      } else {
-        await set(sentenceRef, { upvotes: 0, downvotes: 0 })
-        setVotes({ upvotes: 0, downvotes: 0 })
-      }
-    } catch (error) {
-      console.error('Error accessing database:', error)
-    }
+    setVotes({ upvotes: 0, downvotes: 0 })
   }
 
   const handleVote = async (type: 'upvote' | 'downvote') => {
     if (!isClient || !selectedCategory || !currentSentence) return
 
-    try {
-      const sentenceId = `${selectedCategory}-${currentSentence}`.replace(/[.#$/\[\]]/g, '_')
-      const sentenceRef = ref(db, `sentences/${sentenceId}`)
-      
-      const updates = {
-        [type === 'upvote' ? 'upvotes' : 'downvotes']: votes[type === 'upvote' ? 'upvotes' : 'downvotes'] + 1
-      }
-      
-      await update(sentenceRef, updates)
-
-      setVotes(prev => ({
-        ...prev,
-        [type === 'upvote' ? 'upvotes' : 'downvotes']: prev[type === 'upvote' ? 'upvotes' : 'downvotes'] + 1
-      }))
-    } catch (error) {
-      console.error('Error updating votes:', error)
-    }
+    setVotes(prev => ({
+      ...prev,
+      [type === 'upvote' ? 'upvotes' : 'downvotes']: prev[type === 'upvote' ? 'upvotes' : 'downvotes'] + 1
+    }))
   }
 
   const handleShare = (platform: 'whatsapp' | 'twitter') => {
