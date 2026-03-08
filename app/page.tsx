@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { ThumbsUp, ThumbsDown, Share2, X, Copy, RefreshCw } from 'lucide-react'
 import { motivationalSentences } from './data/motivationalSentences'
+import { recommendedProducts } from './data/recommendedProducts'
 import { db } from '@/lib/firebase'
 import { ref, push, serverTimestamp } from 'firebase/database'
 
@@ -275,6 +276,33 @@ export default function Home() {
                   <span>Next</span>
                 </Button>
               </div>
+
+              {selectedCategory && recommendedProducts[selectedCategory] && recommendedProducts[selectedCategory].length > 0 && (
+                <div className="w-full mb-6 text-left border-t border-border pt-4">
+                  <h3 className="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wider">Recommended Products</h3>
+                  <div className="space-y-3">
+                    {recommendedProducts[selectedCategory].map((product, idx) => (
+                      <a
+                        key={idx}
+                        href={product.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex flex-col gap-2 p-3 rounded-md border border-border hover:border-primary/50 hover:bg-primary/5 transition-colors group"
+                      >
+                        {product.imageUrl && (
+                           <div className="w-full h-32 overflow-hidden rounded-sm mb-1 bg-muted">
+                             <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                           </div>
+                        )}
+                        <span className="text-sm font-medium text-primary group-hover:underline line-clamp-2">
+                          {product.name}
+                        </span>
+                        <span className="text-xs text-muted-foreground line-clamp-1">View on Amazon</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="space-y-2 w-full">
                 <Button 
