@@ -25,7 +25,12 @@ export const motivationalSentences: Record<string, string[]> = {
     "You are stronger than your cravings. Prove it to yourself.",
     "You are what you eat, so don't be fast, cheap, easy, or fake.",
     "You’re not a dog. Stop rewarding yourself with junk food.",
-    "Your body deserves the best. Feed it with love and care."
+    "Your body deserves the best. Feed it with love and care.",
+    "Discipline is choosing between what you want now and what you want most.",
+    "Eat to nourish your body, not to feed your emotions.",
+    "Failure is not falling down but refusing to get up. Get back on track.",
+    "If you keep good food in your fridge, you will eat good food.",
+    "Your diet is a bank account. Good food choices are good investments."
   ],
   Gym: [
     "“The difference between the impossible and the possible lies in a person’s determination.” – Tommy Lasorda",
@@ -50,7 +55,12 @@ export const motivationalSentences: Record<string, string[]> = {
     "What’s your excuse today? Yeah, thought so. Get moving.",
     "You can either throw in the towel or use it to wipe your sweat. Your choice.",
     "You don't have to be great to start, but you have to start to be great. - Zig Ziglar",
-    "Your body is capable of amazing things. Believe in it."
+    "Your body is capable of amazing things. Believe in it.",
+    "A one hour workout is 4% of your day. No excuses.",
+    "Motivation is what gets you started. Habit is what keeps you going.",
+    "Success starts with self-discipline.",
+    "Don't stop when you're tired. Stop when you're done.",
+    "Make time for it. Just get it done. Nobody ever got strong or got in shape by thinking about it. They did it."
   ],
   Work: [
     "“Choose a job you love, and you will never have to work a day in your life.” – Confucius",
@@ -75,7 +85,12 @@ export const motivationalSentences: Record<string, string[]> = {
     "Work like there is someone working 24 hours a day to take it away from you.",
     "You’re not stuck. You’re just pre-success. Don’t stop now.",
     "Your hard work today is paving the way for a brighter tomorrow. Keep going!",
-    "Your to-do list isn’t going to conquer itself. Start now."
+    "Your to-do list isn’t going to conquer itself. Start now.",
+    "Opportunities don't happen, you create them.",
+    "If you want to achieve greatness stop asking for permission.",
+    "There are no secrets to success. It is the result of preparation, hard work, and learning from failure.",
+    "If people knew how hard I had to work to gain my mastery, it would not seem so wonderful at all. - Michelangelo",
+    "Great things are done by a series of small things brought together."
   ],
   Alcohol: [
     "“First you take a drink, then the drink takes a drink, then the drink takes you.” – F. Scott Fitzgerald",
@@ -99,7 +114,12 @@ export const motivationalSentences: Record<string, string[]> = {
     "You are not defined by your past mistakes. You are defined by your willingness to change.", 
     "You are worthy of a happy, healthy life, free from addiction.",
     "You can celebrate without a glass in hand. Try it and see.",
-    "Your strength is greater than any bottle. Believe in yourself."
+    "Your strength is greater than any bottle. Believe in yourself.",
+    "Rock bottom became the solid foundation on which I rebuilt my life. - J.K. Rowling",
+    "The goal isn't to be sober. The goal is to love yourself so much that you don't need to drink.",
+    "Sobriety is a journey of healing. You deserve to heal.",
+    "Quitting drinking is hard, but living a life you regret is harder.",
+    "Every day you stay sober, you win."
   ],
   Drugs: [
     "“The best way out is always through.” – Robert Frost",
@@ -125,6 +145,11 @@ export const motivationalSentences: Record<string, string[]> = {
     "You don’t have to control your thoughts. You just have to stop letting them control you.",
     "You're stronger than any substance. Your journey to recovery is worth every step.",
     "You’ve already made it this far. Keep going; you’re unstoppable.",
-    "Your story isn’t over. You’re writing a comeback."
+    "Your story isn’t over. You’re writing a comeback.",
+    "Recovery is about progression, not perfection.",
+    "Don't let your past dictate who you are, but let it be part of who you will become.",
+    "Your addiction is not your identity. Your recovery is your new story.",
+    "Tough times never last, but tough people do.",
+    "Healing takes time, and asking for help is a courageous step."
   ],
 }

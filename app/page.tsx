@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
-import { ThumbsUp, ThumbsDown, Share2, X } from 'lucide-react'
+import { ThumbsUp, ThumbsDown, Share2, X, Copy, RefreshCw } from 'lucide-react'
 import { motivationalSentences } from './data/motivationalSentences'
 import { db } from '@/lib/firebase'
 import { ref, push, serverTimestamp } from 'firebase/database'
@@ -167,6 +167,24 @@ export default function Home() {
     window.open(shareUrls[platform], '_blank');
   }
 
+  const handleCopy = async (): Promise<void> => {
+    if (!currentSentence) return;
+    try {
+      await navigator.clipboard.writeText(currentSentence);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  }
+
+  const handleNextQuote = (): void => {
+    if (!selectedCategory) return;
+    const sentence = getRandomSentence(selectedCategory);
+    setCurrentSentence(sentence);
+    // Reset voting state for the new quote
+    setVotes({ upvotes: 0, downvotes: 0 });
+    setUserVote(null);
+  }
+
   // Prevent hydration issues with a loading state
   if (!isClient) {
     return (
@@ -211,8 +229,8 @@ export default function Home() {
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
             >
-              <h2 className="text-xl md:text-2xl font-bold mb-4 text-card-foreground">{selectedCategory}</h2>
-              <p className="mb-6 text-lg">{currentSentence}</p>
+              <h2 className="text-xl md:text-2xl font-bold mb-6 text-card-foreground mt-4">{selectedCategory}</h2>
+              <p className="mb-8 text-lg">{currentSentence}</p>
               
               <div className="flex gap-4 mb-6">
                 <Button
@@ -237,6 +255,27 @@ export default function Home() {
                 </Button>
               </div>
               
+              <div className="flex gap-4 mb-6 w-full">
+                <Button
+                  variant="outline"
+                  onClick={handleCopy}
+                  className="flex-1 flex items-center justify-center gap-2"
+                  aria-label="Copy to clipboard"
+                >
+                  <Copy className="w-4 h-4" />
+                  <span>Copy</span>
+                </Button>
+                <Button
+                  variant="default"
+                  onClick={handleNextQuote}
+                  className="flex-1 flex items-center justify-center gap-2"
+                  aria-label="Next quote"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  <span>Next</span>
+                </Button>
+              </div>
+
               <div className="space-y-2 w-full">
                 <Button 
                   onClick={() => handleShare('whatsapp')} 
