@@ -165,7 +165,7 @@ export default function Home() {
       twitter: `https://twitter.com/intent/tweet?text=${encodedText}`
     };
     
-    window.open(shareUrls[platform], '_blank');
+    window.open(shareUrls[platform], '_blank', 'noopener,noreferrer');
   }
 
   const handleCopy = async (): Promise<void> => {
