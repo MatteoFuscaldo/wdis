@@ -41,6 +41,7 @@ export default function Home() {
   const [votes, setVotes] = useState<VoteCounts>({ upvotes: 0, downvotes: 0 })
   const [userVote, setUserVote] = useState<VoteType>(null)
   const [voteSubmitting, setVoteSubmitting] = useState(false)
+  const [isCopied, setIsCopied] = useState(false)
 
   // Check if we're on client-side once on component mount
   useEffect(() => {
@@ -172,6 +173,10 @@ export default function Home() {
     if (!currentSentence) return;
     try {
       await navigator.clipboard.writeText(currentSentence);
+      setIsCopied(true);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 2000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
     }
@@ -264,7 +269,7 @@ export default function Home() {
                   aria-label="Copy to clipboard"
                 >
                   <Copy className="w-4 h-4" />
-                  <span>Copy</span>
+                  <span>{isCopied ? "Copied!" : "Copy"}</span>
                 </Button>
                 <Button
                   variant="default"

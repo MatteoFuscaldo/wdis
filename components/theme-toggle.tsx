@@ -9,13 +9,14 @@ export function ThemeToggle() {
   
   return (
     <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-2">
-      <span className="text-sm">🌞</span>
+      <span className="text-sm" aria-hidden="true">🌞</span>
       <Switch
         checked={theme === "dark"}
         onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
         className="data-[state=checked]:bg-slate-700 data-[state=unchecked]:bg-slate-400"
+        aria-label="Toggle theme"
       />
-      <span className="text-sm">🌚</span>
+      <span className="text-sm" aria-hidden="true">🌚</span>
     </div>
   )
 } 
