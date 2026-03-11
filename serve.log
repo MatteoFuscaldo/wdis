@@ -1,0 +1,24 @@
+npm warn exec The following package was not found and will be installed: serve@14.2.6
+ INFO  Accepting connections at http://localhost:3000
+ HTTP  3/11/2026 4:45:00 AM ::1 GET /
+ HTTP  3/11/2026 4:45:00 AM ::1 Returned 200 in 426 ms
+ HTTP  3/11/2026 4:45:00 AM ::1 GET /_next/static/css/69e0ce4cc3d0b405.css
+ HTTP  3/11/2026 4:45:00 AM ::1 GET /_next/static/chunks/webpack-a3a767e768abe7e6.js
+ HTTP  3/11/2026 4:45:00 AM ::1 Returned 200 in 7 ms
+ HTTP  3/11/2026 4:45:00 AM ::1 Returned 200 in 6 ms
+ HTTP  3/11/2026 4:45:00 AM ::1 GET /_next/static/chunks/2200cc46-0beb556976e8e3f9.js
+ HTTP  3/11/2026 4:45:00 AM ::1 GET /_next/static/chunks/945-6b82fde2033ea818.js
+ HTTP  3/11/2026 4:45:00 AM ::1 Returned 200 in 7 ms
+ HTTP  3/11/2026 4:45:00 AM ::1 Returned 200 in 11 ms
+ HTTP  3/11/2026 4:45:00 AM ::1 GET /_next/static/chunks/main-app-3f5023c545cc220c.js
+ HTTP  3/11/2026 4:45:00 AM ::1 GET /_next/static/chunks/debccd80-080c851c90461423.js
+ HTTP  3/11/2026 4:45:00 AM ::1 GET /_next/static/chunks/257-f87e1726159fff0a.js
+ HTTP  3/11/2026 4:45:00 AM ::1 GET /_next/static/chunks/app/page-0c4c794c62f85c96.js
+ HTTP  3/11/2026 4:45:00 AM ::1 Returned 200 in 25 ms
+ HTTP  3/11/2026 4:45:00 AM ::1 GET /_next/static/chunks/app/layout-0fb95e83d0630115.js
+ HTTP  3/11/2026 4:45:00 AM ::1 Returned 200 in 38 ms
+ HTTP  3/11/2026 4:45:00 AM ::1 Returned 200 in 22 ms
+ HTTP  3/11/2026 4:45:00 AM ::1 Returned 200 in 38 ms
+ HTTP  3/11/2026 4:45:00 AM ::1 Returned 200 in 22 ms
+ HTTP  3/11/2026 4:45:01 AM ::1 GET /fonts/MesloLGS-NF-Regular.ttf
+ HTTP  3/11/2026 4:45:01 AM ::1 Returned 404 in 7 ms
