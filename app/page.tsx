@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
-import { ThumbsUp, ThumbsDown, Share2, X, Copy, RefreshCw } from 'lucide-react'
+import { ThumbsUp, ThumbsDown, Share2, X, Copy, RefreshCw, Check } from 'lucide-react'
 import { motivationalSentences } from './data/motivationalSentences'
 import { recommendedProducts } from './data/recommendedProducts'
 import { db } from '@/lib/firebase'
@@ -41,6 +41,7 @@ export default function Home() {
   const [votes, setVotes] = useState<VoteCounts>({ upvotes: 0, downvotes: 0 })
   const [userVote, setUserVote] = useState<VoteType>(null)
   const [voteSubmitting, setVoteSubmitting] = useState(false)
+  const [isCopied, setIsCopied] = useState(false)
 
   // Check if we're on client-side once on component mount
   useEffect(() => {
@@ -172,6 +173,8 @@ export default function Home() {
     if (!currentSentence) return;
     try {
       await navigator.clipboard.writeText(currentSentence);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
     }
@@ -184,6 +187,7 @@ export default function Home() {
     // Reset voting state for the new quote
     setVotes({ upvotes: 0, downvotes: 0 });
     setUserVote(null);
+    setIsCopied(false);
   }
 
   // Prevent hydration issues with a loading state
@@ -261,10 +265,19 @@ export default function Home() {
                   variant="outline"
                   onClick={handleCopy}
                   className="flex-1 flex items-center justify-center gap-2"
-                  aria-label="Copy to clipboard"
+                  aria-label={isCopied ? "Copied to clipboard" : "Copy to clipboard"}
                 >
-                  <Copy className="w-4 h-4" />
-                  <span>Copy</span>
+                  {isCopied ? (
+                    <>
+                      <Check className="w-4 h-4 text-green-500" />
+                      <span className="text-green-500">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      <span>Copy</span>
+                    </>
+                  )}
                 </Button>
                 <Button
                   variant="default"
